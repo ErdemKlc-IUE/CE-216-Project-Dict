@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
-        <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+        <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Options">
                     <items>
@@ -49,15 +49,15 @@
                 </Lighting>
             </effect>
         </MenuBar>
-        <TextField fx:id="searchedWord" layoutX="199.0" layoutY="163.0" prefHeight="26.0" prefWidth="202.0" />
-        <Label layoutX="199.0" layoutY="44.0" text="The Offline Dictionary" textFill="#1369d6">
+        <TextField fx:id="searchedWord" layoutX="199.0" layoutY="163.0" prefHeight="26.0" prefWidth="202.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="198.6" />
+        <Label alignment="CENTER" layoutX="199.0" layoutY="44.0" text="The Offline Dictionary" textFill="#1369d6" AnchorPane.leftAnchor="199.00000000000003" AnchorPane.rightAnchor="199.4">
             <font>
                 <Font size="21.0" />
             </font>
         </Label>
-        <ListView fx:id="list" layoutX="83.0" layoutY="200.0" prefHeight="166.0" prefWidth="430.0" />
-        <Button layoutX="420.0" layoutY="163.0" mnemonicParsing="false" onAction="#search" text="Search" />
-        <MenuButton fx:id="fromLang" layoutX="153.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
+        <ListView fx:id="list" layoutX="83.0" layoutY="200.0" prefHeight="166.0" prefWidth="430.0" AnchorPane.bottomAnchor="33.599999999999994" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="86.60000000000002" AnchorPane.topAnchor="199.99999999999997" />
+        <Button layoutX="420.0" layoutY="163.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="128.0" />
+        <MenuButton fx:id="fromLang" alignment="CENTER" layoutX="153.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
             <items>
                 <MenuItem fx:id="eng1" mnemonicParsing="false" text="English" />
                 <MenuItem fx:id="fra1" mnemonicParsing="false" text="French" />
@@ -68,24 +68,23 @@
                 <MenuItem fx:id="tur1" mnemonicParsing="false" text="Turkish" />
             </items>
         </MenuButton>
-        <MenuButton fx:id="toLang" layoutX="354.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
+        <MenuButton fx:id="toLang" alignment="CENTER" layoutX="354.0" layoutY="88.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
          <items>
             <MenuItem fx:id="eng2" mnemonicParsing="false" text="English" />
             <MenuItem fx:id="fra2" mnemonicParsing="false" text="French" />
             <MenuItem fx:id="deu2" mnemonicParsing="false" text="German" />
-            <MenuItem fx:id="ita2" mnemonicParsing="false" text="Italien" />
+            <MenuItem fx:id="ita2" mnemonicParsing="false" text="Italian" />
             <MenuItem fx:id="ell2" mnemonicParsing="false" text="Modern Greek" />
             <MenuItem fx:id="swe2" mnemonicParsing="false" text="Swedish" />
             <MenuItem fx:id="tur2" mnemonicParsing="false" text="Turkish" />
          </items>
         </MenuButton>
-        <Label layoutX="277.0" layoutY="122.0" text="----&gt;">
+        <Label alignment="CENTER" layoutX="277.0" layoutY="122.0" text="----&gt;" AnchorPane.leftAnchor="277.0" AnchorPane.rightAnchor="281.4">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-      <Label fx:id="fromLangLbl" layoutX="164.0" layoutY="127.0" text="Not Selected" />
-      <Label fx:id="toLangLbl" layoutX="367.0" layoutY="127.0" text="Not Selected" />
+      <Label fx:id="fromLangLbl" alignment="CENTER" layoutX="164.0" layoutY="127.0" text="Not Selected" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="367.2" />
+      <Label fx:id="toLangLbl" alignment="CENTER" layoutX="367.0" layoutY="127.0" text="Not Selected" AnchorPane.leftAnchor="367.0" AnchorPane.rightAnchor="164.2" />
     </children>
 </AnchorPane>
-

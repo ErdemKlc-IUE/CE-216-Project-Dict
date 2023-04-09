@@ -128,7 +128,7 @@ public class Controller {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
-            alert.setContentText("Eksik bilgi girdiniz");
+            alert.setContentText("Please select the languages and enter the word you want to translate");
             alert.showAndWait();
         } else if (lan1 == lan2) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
