@@ -8,7 +8,7 @@ import java.util.List;
 public class Controller {
 
     @FXML
-    ListView list;
+    ListView<String> list;
 
     @FXML
     MenuButton fromLang,toLang;
@@ -59,101 +59,188 @@ public class Controller {
 
         switch (fromLangLbl.getText()) {
             case "English": {
-              lan1="eng";
-              break;
+                lan1 = "eng";
+                break;
             }
             case "French": {
-                lan1="fra";
+                lan1 = "fra";
                 break;
             }
             case "German": {
-                lan1="deu";
+                lan1 = "deu";
                 break;
             }
-            case "Italien": {
-                lan1="ita";
+            case "Italian": {
+                lan1 = "ita";
                 break;
             }
             case "Modern Greek": {
-                lan1="ell";
+                lan1 = "ell";
                 break;
             }
             case "Swedish": {
-                lan1="swe";
+                lan1 = "swe";
                 break;
             }
             case "Turkish": {
-                lan1="tur";
+                lan1 = "tur";
                 break;
             }
         }
 
         switch (toLangLbl.getText()) {
             case "English": {
-                lan2="eng";
+                lan2 = "eng";
                 break;
             }
             case "French": {
-                lan2="fra";
+                lan2 = "fra";
                 break;
             }
             case "German": {
-                lan2="deu";
+                lan2 = "deu";
                 break;
             }
-            case "Italien": {
-                lan2="ita";
+            case "Italian": {
+                lan2 = "ita";
                 break;
             }
             case "Modern Greek": {
-                lan2="ell";
+                lan2 = "ell";
                 break;
             }
             case "Swedish": {
-                lan2="swe";
+                lan2 = "swe";
                 break;
             }
             case "Turkish": {
-                lan2="tur";
+                lan2 = "tur";
                 break;
             }
         }
 
 
-        // Create a File object using the UNC path
-        File file1 =new File(lan1+"-"+lan2+".dict");
-        String path=file1.getAbsolutePath();
+        List<String> lines = new ArrayList<>();
+        List<String> lines2 = new ArrayList<>();
+        List<String> lines3 = new ArrayList<>();
 
-         List<String> lines = new ArrayList<>();
-         try {
-             BufferedReader reader = new BufferedReader(new FileReader(path));
-             String line;
-             while ((line = reader.readLine()) != null) {
-                 lines.add(line);
-             }
-             reader.close();
+        if (lan1 == "Not Selected" || lan2 == "Not Selected" || searchedWord.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Eksik bilgi girdiniz");
+            alert.showAndWait();
+        } else if (lan1 == lan2) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("You can't translate the same language");
+            alert.showAndWait();
+        }
+        else {
+
+            try {
+                File file1 = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+                String path1 = file1.getAbsolutePath();
+                BufferedReader reader = new BufferedReader(new FileReader(path1));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+                reader.close();
+
+            } catch (Exception t) {
+
+                File file2 = new File("Dictionaries\\" + lan1 + "-eng.dict");
+                File file3 = new File("Dictionaries\\eng-" + lan2 + ".dict");
+                String path2 = file2.getAbsolutePath();
+                String path3 = file3.getAbsolutePath();
+
+                try {
+                    BufferedReader reader1 = new BufferedReader(new FileReader(path2));
+                    BufferedReader reader2 = new BufferedReader(new FileReader(path3));
+                    String line;
+                    while ((line = reader1.readLine()) != null) {
+                        lines2.add(line);
+                    }
+                    reader1.close();
+
+                    while ((line = reader2.readLine()) != null) {
+                        lines3.add(line);
+                    }
+                    reader2.close();
 
 
-         } catch (IOException e) {
-             throw new RuntimeException(e);
-         }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
 
-         for (int i = 0; i < lines.size(); i++) {
-             String line = lines.get(i);
-             if ((line.matches(searchedWord.getText() + " /.*"))) {
-                 list.getItems().add(lines.get(i + 1));
-                 if (lines.get(i + 2).contains("2.")) {
-                     list.getItems().add(lines.get(i + 2));
-                 }
-                 if (lines.get(i + 3).contains("3.")) {
-                     list.getItems().add(lines.get(i + 3));
-                 }
-             }
-         }
+                for (int i = 0; i < lines2.size(); i++) {
+                    String line = lines2.get(i);
+                    if (line.matches(searchedWord.getText() + " /.*")) {
+
+                        for (int k = 0; k < lines3.size(); k++) {
+                            String line2 = lines3.get(k);
+                            if (line2.matches(lines2.get(i + 1) + " /.*")) {
+                                list.getItems().add(lines3.get(k + 1));
+                                if (lines3.get(k + 2).contains("2.")) {
+                                    list.getItems().add(lines3.get(k + 2));
+                                    //System.out.println(lines2.get(k + 2));
+                                }
+                                if (lines3.get(k + 3).contains("3.")) {
+                                    list.getItems().add(lines3.get(k + 3));
+                                    //System.out.println(lines2.get(k + 3));
+                                }
+                                if (lines3.get(k + 4).contains("4.")) {
+                                    list.getItems().add(lines3.get(k + 4));
+                                    //System.out.println(lines2.get(k + 4));
+                                }
+                            }
+                        }
+                        if (lines2.get(i + 2).contains("2.")) {
+                            System.out.println(lines2.get(i + 2));
+                        }
+                        if (lines2.get(i + 3).contains("3.")) {
+                            System.out.println(lines2.get(i + 3));
+                        }
+                        if (lines2.get(i + 4).contains("4.")) {
+                            System.out.println(lines2.get(i + 4));
+                        }
+                    }
+                }
+
+            }
+
+            if (lan1.equals("swe") || lan1.equals("deu")) {
+                for (int i = 0; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    if ((line.matches(searchedWord.getText() + " /.*"))) {
+                        list.getItems().add(lines.get(i + 1));
+                    }
+                }
+            } else {
+                for (int i = 0; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    //String word=searchedWord.getText();
+                    if ((line.matches(searchedWord.getText() + " /.*"))) {
+                        list.getItems().add(lines.get(i + 1));
+                        if (lines.get(i + 2).contains("2.")) {
+                            list.getItems().add(lines.get(i + 2));
+                        }
+                        if (lines.get(i + 3).contains("3.")) {
+                            list.getItems().add(lines.get(i + 3));
+                        }
+                        if (lines.get(i + 4).contains("4.")) {
+                            list.getItems().add(lines.get(i + 4));
+                        }
+                    }
+                }
+            }
+
+        }
 
     }
-
 
     @FXML
     void exit() {
