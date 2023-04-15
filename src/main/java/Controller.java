@@ -1,11 +1,19 @@
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
 
-public class Controller {
+public class Controller implements Initializable {
+
 
     @FXML
     ListView<String> list;
@@ -26,9 +34,25 @@ public class Controller {
     Label fromLangLbl,toLangLbl;
 
     String lan1,lan2;
+    private Controller2 controller2;
+
+    public Stage getAddStage() {
+        return addStage;
+    }
+
+    private Stage addStage;
+    private ArrayList<Scene> sceneList;
+
+    public Controller2 getController2() {
+        return controller2;
+    }
+
+    public void setController2(Controller2 controller2) {
+        this.controller2 = controller2;
+    }
 
     @FXML
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
         eng1.setOnAction(event -> fromLangLbl.setText(eng1.getText()));
         fra1.setOnAction(event -> fromLangLbl.setText(fra1.getText()));
@@ -47,6 +71,14 @@ public class Controller {
         swe2.setOnAction(event -> toLangLbl.setText(swe2.getText()));
         tur2.setOnAction(event -> toLangLbl.setText(tur2.getText()));
 
+        controller2.init(this);
+
+
+    }
+    public Controller() {
+        this.controller2 = new Controller2();
+        addStage = new Stage();
+        sceneList = new ArrayList<>();
     }
 
 
@@ -56,81 +88,19 @@ public class Controller {
         // UNC path of the file on the network share
         list.getItems().clear();
 
-
-        switch (fromLangLbl.getText()) {
-            case "English": {
-                lan1 = "eng";
-                break;
-            }
-            case "French": {
-                lan1 = "fra";
-                break;
-            }
-            case "German": {
-                lan1 = "deu";
-                break;
-            }
-            case "Italian": {
-                lan1 = "ita";
-                break;
-            }
-            case "Modern Greek": {
-                lan1 = "ell";
-                break;
-            }
-            case "Swedish": {
-                lan1 = "swe";
-                break;
-            }
-            case "Turkish": {
-                lan1 = "tur";
-                break;
-            }
-        }
-
-        switch (toLangLbl.getText()) {
-            case "English": {
-                lan2 = "eng";
-                break;
-            }
-            case "French": {
-                lan2 = "fra";
-                break;
-            }
-            case "German": {
-                lan2 = "deu";
-                break;
-            }
-            case "Italian": {
-                lan2 = "ita";
-                break;
-            }
-            case "Modern Greek": {
-                lan2 = "ell";
-                break;
-            }
-            case "Swedish": {
-                lan2 = "swe";
-                break;
-            }
-            case "Turkish": {
-                lan2 = "tur";
-                break;
-            }
-        }
-
+        choicePart();
 
         List<String> lines = new ArrayList<>();
         List<String> lines2 = new ArrayList<>();
         List<String> lines3 = new ArrayList<>();
 
-        if (lan1 == "Not Selected" || lan2 == "Not Selected" || searchedWord.getText().isEmpty()) {
+        if (Objects.equals(lan1, "Not Selected") || Objects.equals(lan2, "Not Selected") || searchedWord.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
             alert.setContentText("Please select the languages and enter the word you want to translate");
             alert.showAndWait();
-        } else if (lan1 == lan2) {
+        } else if (Objects.equals(lan1, lan2)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
@@ -241,10 +211,84 @@ public class Controller {
         }
 
     }
+    public void choicePart(){
+        switch (fromLangLbl.getText()) {
+            case "English" -> {
+                lan1 = "eng";
+            }
+            case "French" -> {
+                lan1 = "fra";
+            }
+            case "German" -> {
+                lan1 = "deu";
+            }
+            case "Italian" -> {
+                lan1 = "ita";
+            }
+            case "Modern Greek" -> {
+                lan1 = "ell";
+            }
+            case "Swedish" -> {
+                lan1 = "swe";
+            }
+            case "Turkish" -> {
+                lan1 = "tur";
+            }
+        }
 
-    @FXML
-    void exit() {
-        System.exit(0);
+        switch (toLangLbl.getText()) {
+            case "English" -> {
+                lan2 = "eng";
+            }
+            case "French" -> {
+                lan2 = "fra";
+            }
+            case "German" -> {
+                lan2 = "deu";
+            }
+            case "Italian" -> {
+                lan2 = "ita";
+            }
+            case "Modern Greek" -> {
+                lan2 = "ell";
+            }
+            case "Swedish" -> {
+                lan2 = "swe";
+            }
+            case "Turkish" -> {
+                lan2 = "tur";
+            }
+        }
     }
 
+    @FXML
+    public void addScene() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddScene.fxml"));
+
+            Parent root1 = fxmlLoader.load();
+
+            Controller2 controller2 = fxmlLoader.getController();
+            controller2.init(this);
+
+            Scene scene1 = new Scene(root1);
+
+            controller2.setScene(scene1);
+
+            this.controller2 = controller2;
+
+            addStage.setScene(scene1);
+            addStage.show();
+            Stage stage = (Stage) list.getScene().getWindow();
+            stage.hide();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+        @FXML
+        void exit () {
+            System.exit(0);
+        }
 }
