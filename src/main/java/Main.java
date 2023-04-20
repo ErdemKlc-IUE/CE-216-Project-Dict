@@ -1,10 +1,8 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -19,19 +17,26 @@ public class Main extends Application {
 
         FXMLLoader addLoader1 = new FXMLLoader(getClass().getResource("AddScene.fxml"));
 
+        FXMLLoader addLoader2 = new FXMLLoader(getClass().getResource("edit.fxml"));
+
 
         Parent root1 = addLoader1.load();
         Scene scene1 = new Scene(root1);
 
 
         Controller2 controller2 = new Controller2();
+        EditController editController = new EditController();
 
         controller2.setController(controller);
         controller2.setScene(scene1);
 
+        editController.setController(controller);
+        editController.setScene(scene1);
+
 
         controller.setController2(controller2);
 
+        controller.setEditController(editController);
 
 
         primaryStage.setTitle("The Offline Dictionary App");

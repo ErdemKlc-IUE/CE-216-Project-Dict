@@ -1,11 +1,13 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class Controller2 implements Initializable {
 
     private Controller controller;
 
-    private Scene scene;
+
     @FXML
     MenuButton fromLang,toLang;
     @FXML
@@ -32,6 +34,10 @@ public class Controller2 implements Initializable {
     @FXML
     Button addBtn;
     String lan1,lan2;
+    private Scene scene;
+    private Parent root;
+    private Stage stage;
+
     public Scene getScene() {
         return scene;
     }
@@ -84,4 +90,13 @@ public class Controller2 implements Initializable {
         getController().choicePart();
 
         }
+
+    @FXML
+    public void returnBack(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

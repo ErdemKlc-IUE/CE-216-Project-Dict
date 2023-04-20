@@ -4,6 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -35,12 +36,19 @@ public class Controller implements Initializable {
 
     String lan1,lan2;
     private Controller2 controller2;
+    private EditController editController;
 
     public Stage getAddStage() {
         return addStage;
     }
 
+    public Stage getEditStage() {
+        return editStage;
+    }
+
     private Stage addStage;
+    private Stage editStage;
+
     private ArrayList<Scene> sceneList;
 
     public Controller2 getController2() {
@@ -49,6 +57,14 @@ public class Controller implements Initializable {
 
     public void setController2(Controller2 controller2) {
         this.controller2 = controller2;
+    }
+
+    public EditController getEditController() {
+        return editController;
+    }
+
+    public void setEditController(EditController editController) {
+        this.editController = editController;
     }
 
     @FXML
@@ -72,12 +88,15 @@ public class Controller implements Initializable {
         tur2.setOnAction(event -> toLangLbl.setText(tur2.getText()));
 
         controller2.init(this);
+        editController.init(this);
 
 
     }
     public Controller() {
         this.controller2 = new Controller2();
+        this.editController = new EditController();
         addStage = new Stage();
+        editStage = new Stage();
         sceneList = new ArrayList<>();
     }
 
@@ -213,51 +232,23 @@ public class Controller implements Initializable {
     }
     public void choicePart(){
         switch (fromLangLbl.getText()) {
-            case "English" -> {
-                lan1 = "eng";
-            }
-            case "French" -> {
-                lan1 = "fra";
-            }
-            case "German" -> {
-                lan1 = "deu";
-            }
-            case "Italian" -> {
-                lan1 = "ita";
-            }
-            case "Modern Greek" -> {
-                lan1 = "ell";
-            }
-            case "Swedish" -> {
-                lan1 = "swe";
-            }
-            case "Turkish" -> {
-                lan1 = "tur";
-            }
+            case "English" -> lan1 = "eng";
+            case "French" -> lan1 = "fra";
+            case "German" -> lan1 = "deu";
+            case "Italian" -> lan1 = "ita";
+            case "Modern Greek" -> lan1 = "ell";
+            case "Swedish" -> lan1 = "swe";
+            case "Turkish" -> lan1 = "tur";
         }
 
         switch (toLangLbl.getText()) {
-            case "English" -> {
-                lan2 = "eng";
-            }
-            case "French" -> {
-                lan2 = "fra";
-            }
-            case "German" -> {
-                lan2 = "deu";
-            }
-            case "Italian" -> {
-                lan2 = "ita";
-            }
-            case "Modern Greek" -> {
-                lan2 = "ell";
-            }
-            case "Swedish" -> {
-                lan2 = "swe";
-            }
-            case "Turkish" -> {
-                lan2 = "tur";
-            }
+            case "English" -> lan2 = "eng";
+            case "French" -> lan2 = "fra";
+            case "German" -> lan2 = "deu";
+            case "Italian" -> lan2 = "ita";
+            case "Modern Greek" -> lan2 = "ell";
+            case "Swedish" -> lan2 = "swe";
+            case "Turkish" -> lan2 = "tur";
         }
     }
 
@@ -286,6 +277,23 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void switchToEdit () throws Exception{
+
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("edit.fxml")));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Edit");
+        stage.setScene(new Scene(parent, 600, 400));
+        stage.setMinWidth(605);
+        stage.setMinHeight(405);
+        stage.setResizable(true);
+
+
+        stage.show();
+    }
+
 
         @FXML
         void exit () {
