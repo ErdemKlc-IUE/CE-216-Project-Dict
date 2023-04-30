@@ -297,7 +297,9 @@ public class Controller implements Initializable {
         stage.setMinWidth(605);
         stage.setMinHeight(405);
         stage.setResizable(true);
-
+        // Hide the current window
+        Stage stage1 = (Stage) list.getScene().getWindow();
+        stage1.hide();
 
         stage.show();
     }

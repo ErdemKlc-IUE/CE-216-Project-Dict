@@ -23,6 +23,8 @@ public class Main extends Application {
         Parent root1 = addLoader1.load();
         Scene scene1 = new Scene(root1);
 
+        Parent root2 = addLoader2.load();
+        Scene scene2 = new Scene(root2);
 
         Controller2 controller2 = new Controller2();
         EditController editController = new EditController();
@@ -31,7 +33,7 @@ public class Main extends Application {
         controller2.setScene(scene1);
 
         editController.setController(controller);
-        editController.setScene(scene1);
+        editController.setScene(scene2);
 
 
         controller.setController2(controller2);

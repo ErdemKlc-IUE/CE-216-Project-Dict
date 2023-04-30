@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Controller2 implements Initializable {
     @FXML
     Label fromLangLbl,toLangLbl;
     @FXML
-    TableView<String> table;
+    ListView<String> wordsList,wordsList1;
     @FXML
     MenuItem eng1,fra1,deu1,ita1,ell1,swe1,tur1;
     @FXML
@@ -84,15 +84,55 @@ public class Controller2 implements Initializable {
         String word2 = translation.getText();
 
         List<String> lines = new ArrayList<>();
-        List<String> lines2 = new ArrayList<>();
-        List<String> lines3 = new ArrayList<>();
 
-        getController().choicePart();
-
-
-
+        choicePart();
+        if (word.isEmpty() || word2.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please fill in all the fields");
+            alert.showAndWait();
+        } else{
+            try {
+                File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+                String path = file.getAbsolutePath();
+                BufferedReader reader = new BufferedReader(new FileReader(path));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (String line : lines) {
+                if (line.matches(word+"/.*")){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
+                    alert.setContentText("This word already exists in the dictionary");
+                    alert.showAndWait();
+                    return;
+                }
+                else {
+                    try {
+                        FileWriter fileWriter = new FileWriter("Dictionaries\\" + lan1 + "-" + lan2 + ".dict", true);
+                        String text1 = word + " / /\n" +"1." +word2 + "\n";
+                        fileWriter.write(text1);
+                        fileWriter.close();
+                        wordsList.getItems().add(word);
+                        wordsList1.getItems().add(word2);
+                        addedWord.clear();
+                        translation.clear();
+                        break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
         }
-
+    }
     @FXML
     public void returnBack(ActionEvent e) throws IOException {
         root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -100,5 +140,26 @@ public class Controller2 implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    public void choicePart(){
+        switch (fromLangLbl.getText()) {
+            case "English" -> lan1 = "eng";
+            case "French" -> lan1 = "fra";
+            case "German" -> lan1 = "deu";
+            case "Italian" -> lan1 = "ita";
+            case "Modern Greek" -> lan1 = "ell";
+            case "Swedish" -> lan1 = "swe";
+            case "Turkish" -> lan1 = "tur";
+        }
+
+        switch (toLangLbl.getText()) {
+            case "English" -> lan2 = "eng";
+            case "French" -> lan2 = "fra";
+            case "German" -> lan2 = "deu";
+            case "Italian" -> lan2 = "ita";
+            case "Modern Greek" -> lan2 = "ell";
+            case "Swedish" -> lan2 = "swe";
+            case "Turkish" -> lan2 = "tur";
+        }
     }
 }
