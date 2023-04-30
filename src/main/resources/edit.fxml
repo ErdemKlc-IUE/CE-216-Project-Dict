@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditController">
     <children>
-        <MenuButton fx:id="fromLang" alignment="CENTER" layoutX="139.0" layoutY="64.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
+        <MenuButton fx:id="fromLang" alignment="CENTER" layoutX="154.0" layoutY="57.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
             <items>
                 <MenuItem fx:id="eng1" mnemonicParsing="false" text="English" />
                 <MenuItem fx:id="fra1" mnemonicParsing="false" text="French" />
@@ -21,7 +21,7 @@
                 <MenuItem fx:id="tur1" mnemonicParsing="false" text="Turkish" />
             </items>
         </MenuButton>
-        <MenuButton fx:id="toLang" alignment="CENTER" layoutX="361.0" layoutY="64.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
+        <MenuButton fx:id="toLang" alignment="CENTER" layoutX="337.0" layoutY="57.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
             <items>
                 <MenuItem fx:id="eng2" mnemonicParsing="false" text="English" />
                 <MenuItem fx:id="fra2" mnemonicParsing="false" text="French" />
@@ -32,20 +32,25 @@
                 <MenuItem fx:id="tur2" mnemonicParsing="false" text="Turkish" />
             </items>
         </MenuButton>
-        <Label fx:id="fromLangLbl" alignment="CENTER" layoutX="151.0" layoutY="113.0" text="Not Selected" />
-        <Label fx:id="toLangLbl" alignment="CENTER" layoutX="373.0" layoutY="113.0" text="Not Selected" />
-        <Label alignment="CENTER" layoutX="279.0" layoutY="108.0" text="----&gt;">
+        <Label fx:id="fromLangLbl" alignment="CENTER" layoutX="165.0" layoutY="104.0" text="Not Selected" />
+        <Label fx:id="toLangLbl" alignment="CENTER" layoutX="349.0" layoutY="104.0" text="Not Selected" />
+        <Label alignment="CENTER" layoutX="279.0" layoutY="99.0" text="----&gt;">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="word" layoutX="120.0" layoutY="149.0" prefHeight="26.0" prefWidth="130.0" />
-        <TextField fx:id="translation" layoutX="342.0" layoutY="149.0" prefHeight="26.0" prefWidth="130.0" />
-        <TextField fx:id="newWord" layoutX="120.0" layoutY="263.0" prefHeight="26.0" prefWidth="130.0" />
-        <TextField fx:id="newTranslation" layoutX="342.0" layoutY="263.0" prefHeight="26.0" prefWidth="130.0" />
-        <Label fx:id="newWordLbl" alignment="CENTER" layoutX="157.0" layoutY="234.0" text="New Word" />
-        <Label fx:id="NewTraLbl" alignment="CENTER" layoutX="364.0" layoutY="234.0" text="New Translation" />
-        <Button layoutX="364.0" layoutY="323.0" mnemonicParsing="false" onAction="#returnBack" text="Cancel" />
-        <Button layoutX="431.0" layoutY="323.0" mnemonicParsing="false" onAction="#editWord" text="Edit" />
+        <TextField fx:id="oldW" layoutX="100.0" layoutY="187.0" prefHeight="26.0" prefWidth="130.0" />
+        <TextField fx:id="oldT" layoutX="376.0" layoutY="187.0" prefHeight="26.0" prefWidth="130.0" />
+        <TextField fx:id="newW" layoutX="100.0" layoutY="268.0" prefHeight="26.0" prefWidth="130.0" />
+        <TextField fx:id="newT" layoutX="375.0" layoutY="268.0" prefHeight="26.0" prefWidth="130.0" />
+        <Label fx:id="newWordLbl" alignment="CENTER" layoutX="137.0" layoutY="245.0" text="New Word" />
+        <Label fx:id="NewTraLbl" alignment="CENTER" layoutX="398.0" layoutY="245.0" text="New Translation" />
+        <Button layoutX="275.0" layoutY="321.0" mnemonicParsing="false" onAction="#returnBack" prefHeight="26.0" prefWidth="49.0" text="Back" />
+        <Button layoutX="129.0" layoutY="322.0" mnemonicParsing="false" onAction="#editWord" text="Edit Word" />
+      <Button layoutX="391.0" layoutY="322.0" mnemonicParsing="false" onAction="#editTranslation" text="Edit Translation" />
+      <Label layoutX="138.0" layoutY="158.0" text="Old Word" />
+      <Label layoutX="401.0" layoutY="158.0" text="Old Translation" />
+      <Button layoutX="26.0" layoutY="25.0" mnemonicParsing="false" onAction="#goToAdd" prefHeight="26.0" prefWidth="91.0" text="Add" />
+      <Button layoutX="489.0" layoutY="26.0" mnemonicParsing="false" onAction="#goToSynonym" prefHeight="26.0" prefWidth="91.0" text="Find Synonym" />
     </children>
 </AnchorPane>

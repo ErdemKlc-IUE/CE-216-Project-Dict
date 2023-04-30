@@ -89,6 +89,8 @@ public class Controller2 implements Initializable {
 
         getController().choicePart();
 
+
+
         }
 
     @FXML

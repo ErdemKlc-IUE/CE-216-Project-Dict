@@ -24,19 +24,17 @@ public class EditController implements Initializable {
     @FXML
     Label fromLangLbl,toLangLbl;
     @FXML
-    TableView<String> table;
-    @FXML
     MenuItem eng1,fra1,deu1,ita1,ell1,swe1,tur1;
     @FXML
     MenuItem eng2,fra2,deu2,ita2,ell2,swe2,tur2;
     @FXML
-    TextField addedWord,translation;
-    @FXML
-    Button addBtn;
+    TextField oldW,newW,oldT,newT;
+
     String lan1,lan2;
     private Parent root;
     private Stage stage;
     private Scene scene;
+
     public Scene getScene() {
         return scene;
     }
@@ -78,48 +76,45 @@ public class EditController implements Initializable {
         setController(controller);
     }
     @FXML
-    void editWord() {
+    void editWord() throws IOException {
 
         // Open the file
         choicePart();
+
+        String oldWord=oldW.getText();
+        String newWord=newW.getText();
+
         File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
         String path = file.getAbsolutePath();
         //File file = new File("file.txt");
 
-        try {
-            // Read the contents of the file
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+        List<String> list = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            list.add(line);
+        }
+        reader.close();
+
+        // Replace old string with new string
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i);
+            if(str.matches(oldWord + " /.*")) {
+                str = str.replace(oldWord, newWord);
             }
-            reader.close();
 
-            // Prompt the user for the word they want to edit
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Enter the word you want to edit: ");
-            String oldWord = inputReader.readLine();
-
-            // Prompt the user for the new version of the word
-            System.out.println("Enter the new version of the word: ");
-            String newWord = inputReader.readLine();
-
-            // Replace the word in the content
-            String newContent = content.toString().replace(oldWord, newWord);
-
-            // Write the modified content back to the file
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(newContent);
-            writer.close();
-
-            System.out.println("Word replaced successfully.");
-
-        } catch (IOException e) {
-            System.out.println("An error occurred: " + e.getMessage());
+            list.set(i, str);
         }
 
+        // Write modified content back to the file
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        for (String str : list) {
+            writer.write(str + "\n");
+        }
+        writer.close();
     }
+
+
 
     public void choicePart(){
         switch (fromLangLbl.getText()) {
@@ -151,4 +146,68 @@ public class EditController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    public void goToAdd(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("AddScene.fxml"));
+        stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void goToSynonym(ActionEvent e) throws IOException {
+
+    }
+
+    @FXML
+    void editTranslation() throws IOException {
+        // Open the file
+        choicePart();
+
+        String oldWord=oldW.getText();
+        String oldTranslation=oldT.getText();
+        String newTranslation=newT.getText();
+
+        File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+        String path = file.getAbsolutePath();
+        //File file = new File("file.txt");
+
+        List<String> list = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            list.add(line);
+        }
+        reader.close();
+
+        // Replace old string with new string
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i);
+            String str2 = list.get(i);
+            if(str.matches(oldWord + " /.*")) {
+                i++;
+                str2=list.get(i);
+                while(!str2.contains("/*/")) {
+                    if(str2.contains(oldTranslation)) {
+                        str2 = str2.replace(oldTranslation, newTranslation);
+                        break;
+                    }
+                    i++;
+                }
+
+            }
+
+            list.set(i, str2);
+        }
+
+        // Write modified content back to the file
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        for (String str : list) {
+            writer.write(str + "\n");
+        }
+        writer.close();
+    }
+
 }

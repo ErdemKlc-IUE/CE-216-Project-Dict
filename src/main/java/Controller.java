@@ -229,6 +229,14 @@ public class Controller implements Initializable {
 
         }
 
+        if(list.getItems().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Word is not found in any language.");
+            alert.showAndWait();
+        }
+
     }
     public void choicePart(){
         switch (fromLangLbl.getText()) {
