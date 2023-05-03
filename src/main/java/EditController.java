@@ -185,21 +185,20 @@ public class EditController implements Initializable {
         // Replace old string with new string
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i);
-            String str2 = list.get(i);
             if(str.matches(oldWord + " /.*")) {
                 i++;
-                str2=list.get(i);
+                String str2=list.get(i);
                 while(!str2.contains("/*/")) {
                     if(str2.contains(oldTranslation)) {
                         str2 = str2.replace(oldTranslation, newTranslation);
+                        list.set(i, str2);
                         break;
                     }
                     i++;
+                    str2=list.get(i);
                 }
 
             }
-
-            list.set(i, str2);
         }
 
         // Write modified content back to the file
