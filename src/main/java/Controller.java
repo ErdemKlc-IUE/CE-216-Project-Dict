@@ -34,6 +34,15 @@ public class Controller implements Initializable {
     String lan1;
     private Controller2 controller2;
     private EditController editController;
+    private SynonymController synonymController;
+
+    public SynonymController getSynonymController() {
+        return synonymController;
+    }
+
+    public void setSynonymController(SynonymController synonymController) {
+        this.synonymController = synonymController;
+    }
 
     private final Stage addStage;
     private final Stage editStage;
@@ -69,18 +78,18 @@ public class Controller implements Initializable {
 
         controller2.init(this);
         editController.init(this);
+        synonymController.init(this);
 
 
     }
     public Controller() {
         this.controller2 = new Controller2();
         this.editController = new EditController();
+        this.synonymController = new SynonymController();
         addStage = new Stage();
         editStage = new Stage();
         sceneList = new ArrayList<>();
     }
-
-
     @FXML
     void search() {
 
@@ -255,8 +264,9 @@ public class Controller implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
+        // I don't know how many meanings a word can have, so I used a for loop to check all the meanings.
+        // And I have to stop the loop when the other word is found.
+        // TODO: 3.05.2023 I have to find a better way to do this.
         for (int i = 0; i < lines2.size(); i++) {
             String line = lines2.get(i);
             if (line.matches(searchedWord.getText() + " /.*")) {
@@ -281,8 +291,6 @@ public class Controller implements Initializable {
          list.getItems().add("");
 
     }
-
-
     public void choicePart(){
         switch (fromLangLbl.getText()) {
             case "English" -> lan1 = "eng";
@@ -294,8 +302,6 @@ public class Controller implements Initializable {
             case "Turkish" -> lan1 = "tur";
         }
     }
-
-
     @FXML
     public void addScene() {
         try {
@@ -321,7 +327,6 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
     @FXML
     void switchToEdit () throws Exception{
 
@@ -339,8 +344,22 @@ public class Controller implements Initializable {
 
         stage.show();
     }
+    @FXML
+    void switchToSynonym () throws Exception{
 
-
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("The Offline Dictionary App");
+        stage.setScene(new Scene(parent, 600, 400));
+        stage.setMinWidth(605);
+        stage.setMinHeight(405);
+        stage.setResizable(true);
+        // Hide the current window
+        Stage stage1 = (Stage) list.getScene().getWindow();
+        stage1.hide();
+        stage.show();
+    }
     @FXML
     void exit () {
         System.exit(0);

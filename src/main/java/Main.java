@@ -18,7 +18,7 @@ public class Main extends Application {
         FXMLLoader addLoader1 = new FXMLLoader(getClass().getResource("AddScene.fxml"));
 
         FXMLLoader addLoader2 = new FXMLLoader(getClass().getResource("edit.fxml"));
-
+        FXMLLoader addLoader3 = new FXMLLoader(getClass().getResource("synonym.fxml"));
 
         Parent root1 = addLoader1.load();
         Scene scene1 = new Scene(root1);
@@ -26,8 +26,12 @@ public class Main extends Application {
         Parent root2 = addLoader2.load();
         Scene scene2 = new Scene(root2);
 
+        Parent root3 = addLoader3.load();
+        Scene scene3 = new Scene(root3);
+
         Controller2 controller2 = new Controller2();
         EditController editController = new EditController();
+        SynonymController synonymController = new SynonymController();
 
         controller2.setController(controller);
         controller2.setScene(scene1);
@@ -35,11 +39,15 @@ public class Main extends Application {
         editController.setController(controller);
         editController.setScene(scene2);
 
+        synonymController.setController(controller);
+        synonymController.setScene(scene3);
+
 
         controller.setController2(controller2);
 
         controller.setEditController(editController);
 
+        controller.setSynonymController(synonymController);
 
         primaryStage.setTitle("The Offline Dictionary App");
         primaryStage.setScene(mainScene);

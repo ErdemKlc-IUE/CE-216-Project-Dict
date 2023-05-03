@@ -6,12 +6,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EditController implements Initializable {
@@ -75,6 +77,7 @@ public class EditController implements Initializable {
     public void init(Controller controller) {
         setController(controller);
     }
+
     @FXML
     void editWord() throws IOException {
 
@@ -113,8 +116,6 @@ public class EditController implements Initializable {
         }
         writer.close();
     }
-
-
 
     public void choicePart(){
         switch (fromLangLbl.getText()) {
@@ -158,7 +159,18 @@ public class EditController implements Initializable {
 
     @FXML
     public void goToSynonym(ActionEvent e) throws IOException {
-
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("The Offline Dictionary App");
+        stage.setScene(new Scene(parent, 600, 400));
+        stage.setMinWidth(605);
+        stage.setMinHeight(405);
+        stage.setResizable(true);
+        // Hide the current window
+        Stage stage1 = (Stage) fromLang.getScene().getWindow();
+        stage1.hide();
+        stage.show();
     }
 
     @FXML
