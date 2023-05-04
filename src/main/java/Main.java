@@ -16,7 +16,6 @@ public class Main extends Application {
         Controller controller = new Controller();
 
         FXMLLoader addLoader1 = new FXMLLoader(getClass().getResource("AddScene.fxml"));
-
         FXMLLoader addLoader2 = new FXMLLoader(getClass().getResource("edit.fxml"));
         FXMLLoader addLoader3 = new FXMLLoader(getClass().getResource("synonym.fxml"));
 
@@ -29,7 +28,7 @@ public class Main extends Application {
         Parent root3 = addLoader3.load();
         Scene scene3 = new Scene(root3);
 
-        Controller2 controller2 = new Controller2();
+        AddController controller2 = new AddController();
         EditController editController = new EditController();
         SynonymController synonymController = new SynonymController();
 

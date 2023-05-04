@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     Label fromLangLbl;
 
     String lan1;
-    private Controller2 controller2;
+    private AddController controller2;
     private EditController editController;
     private SynonymController synonymController;
 
@@ -49,11 +49,11 @@ public class Controller implements Initializable {
 
     private ArrayList<Scene> sceneList;
 
-    public Controller2 getController2() {
+    public AddController getController2() {
         return controller2;
     }
 
-    public void setController2(Controller2 controller2) {
+    public void setController2(AddController controller2) {
         this.controller2 = controller2;
     }
 
@@ -83,7 +83,7 @@ public class Controller implements Initializable {
 
     }
     public Controller() {
-        this.controller2 = new Controller2();
+        this.controller2 = new AddController();
         this.editController = new EditController();
         this.synonymController = new SynonymController();
         addStage = new Stage();
@@ -309,7 +309,7 @@ public class Controller implements Initializable {
 
             Parent root1 = fxmlLoader.load();
 
-            Controller2 controller2 = fxmlLoader.getController();
+            AddController controller2 = fxmlLoader.getController();
             controller2.init(this);
 
             Scene scene1 = new Scene(root1);
@@ -347,7 +347,7 @@ public class Controller implements Initializable {
     @FXML
     void switchToSynonym () throws Exception{
 
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("synonym.fxml")));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("The Offline Dictionary App");

@@ -159,7 +159,7 @@ public class EditController implements Initializable {
 
     @FXML
     public void goToSynonym(ActionEvent e) throws IOException {
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("synonym.fxml")));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("The Offline Dictionary App");
