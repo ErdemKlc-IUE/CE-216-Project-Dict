@@ -32,6 +32,8 @@ public class Controller implements Initializable {
     Label fromLangLbl;
 
     String lan1;
+
+
     private AddController controller2;
     private EditController editController;
     private SynonymController synonymController;
@@ -90,8 +92,13 @@ public class Controller implements Initializable {
         editStage = new Stage();
         sceneList = new ArrayList<>();
     }
+
+    int foundWordCounter = 0;
+
+
     @FXML
     void search() {
+
 
         list.getItems().clear();
 
@@ -183,12 +190,24 @@ public class Controller implements Initializable {
             alert.showAndWait();
         }
 
+        if(foundWordCounter == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Word has no translation in any language.");
+            alert.showAndWait();
+
+        }
+
+        if(foundWordCounter != 0){
+            foundWordCounter= 0;
+        }
+
     }
 
     void translate(String lang2) {
 
         List<String> lines = new ArrayList<>();
-
 
         choicePart();
         try {
@@ -206,28 +225,29 @@ public class Controller implements Initializable {
             throw new RuntimeException(e);
         }
 
+
+
         if (lan1.equals("swe") || lan1.equals("deu")) {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
                 if ((line.matches(searchedWord.getText() + " /.*"))) {
                     list.getItems().add(lines.get(i + 1));
+                    foundWordCounter++;
                 }
             }
-        } else {
+        } else{
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
-                //String word=searchedWord.getText();
                 if ((line.matches(searchedWord.getText() + " /.*"))) {
                     list.getItems().add(lines.get(i + 1));
-                    if (lines.get(i + 2).contains("2.")) {
-                        list.getItems().add(lines.get(i + 2));
+                    for (int j = i + 2; j < lines.size(); j++) {
+                        String nextLine = lines.get(j);
+                        if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
+                            break;
+                        }
+                        list.getItems().add(nextLine);
                     }
-                    if (lines.get(i + 3).contains("3.")) {
-                        list.getItems().add(lines.get(i + 3));
-                    }
-                    if (lines.get(i + 4).contains("4.")) {
-                        list.getItems().add(lines.get(i + 4));
-                    }
+                    foundWordCounter++;
                 }
             }
         }
@@ -288,7 +308,7 @@ public class Controller implements Initializable {
                 }
             }
         }
-         list.getItems().add("");
+        list.getItems().add("");
 
     }
     public void choicePart(){
