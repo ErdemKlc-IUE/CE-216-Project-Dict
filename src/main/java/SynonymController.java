@@ -200,6 +200,13 @@ public class SynonymController implements Initializable {
                         String line3 = lines3.get(j);
                         if (line3.matches(lines.get(i + 1) + " /.*")) {
                             synonymsList.getItems().add(lines3.get(j+1));
+                            for(int k = j + 2; k < lines3.size(); k++) {
+                                String nextSynonym = lines3.get(k);
+                                if (nextSynonym.matches("\\w+ /.") || nextSynonym.matches(".\\s/.*")) {
+                                    break;
+                                }
+                                synonymsList.getItems().add(nextSynonym);
+                            }
 
                         }
                     }
@@ -228,7 +235,13 @@ public class SynonymController implements Initializable {
                             String line3 = lines3.get(j);
                             if (line3.matches(lines.get(i + 1) + " /.*")) {
                                 synonymsList.getItems().add(lines3.get(j+1));
-
+                                for(int k = j + 2; k < lines3.size(); k++) {
+                                    String nextSynonym = lines3.get(k);
+                                    if (nextSynonym.matches("\\w+ /.") || nextSynonym.matches(".\\s/.*")) {
+                                        break;
+                                    }
+                                    synonymsList.getItems().add(nextSynonym);
+                                }
                             }
                         }
                     }

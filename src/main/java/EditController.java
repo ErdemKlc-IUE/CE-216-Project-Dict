@@ -81,11 +81,19 @@ public class EditController implements Initializable {
     @FXML
     void editWord() throws IOException {
 
-        // Open the file
+
         choicePart();
 
         String oldWord=oldW.getText();
         String newWord=newW.getText();
+
+        if(oldWord.equals(newWord)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please enter different words for editing.");
+            alert.showAndWait();
+        }
 
         File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
         String path = file.getAbsolutePath();
@@ -99,7 +107,7 @@ public class EditController implements Initializable {
         }
         reader.close();
 
-        // Replace old string with new string
+        // Replacing old word with new word
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i);
             if(str.matches(oldWord + " /.*")) {
@@ -181,6 +189,14 @@ public class EditController implements Initializable {
         String oldWord=oldW.getText();
         String oldTranslation=oldT.getText();
         String newTranslation=newT.getText();
+
+        if(oldTranslation.equals(newTranslation)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Please enter different translations for editing.");
+            alert.showAndWait();
+        }
 
         File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
         String path = file.getAbsolutePath();
