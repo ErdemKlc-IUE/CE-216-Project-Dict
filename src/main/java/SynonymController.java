@@ -120,136 +120,139 @@ public class SynonymController implements Initializable {
         setController(controller);
     }
     @FXML
-    void findSynonym(){
+    void findSynonym() throws IOException{
+        synonymsList.getItems().clear();
         String word = findTf.getText();
         String language = fromLangLbl.getText();
-        if (language.equals("English")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Look, an Information Dialog");
-            alert.setContentText("I have a great message for you!");
-            alert.showAndWait();
-        }
-        else
-        {
-            List<String> lines = new ArrayList<>();
-            List<String> lines3 = new ArrayList<>();
-            choicePart();
-            try {
-                File file1 = new File("Dictionaries\\" + lan1 + "-eng.dict");
-                String path1 = file1.getAbsolutePath();
-                BufferedReader reader = new BufferedReader(new FileReader(path1));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    lines.add(line);
-                }
-                reader.close();
+        switch (language) {
+            case "German" -> {
+                List<String> lines = new ArrayList<>();
+                choicePart();
+                try {
+                    File file1 = new File("Dictionaries\\" + lan1 + "-eng.dict");
+                    String path1 = file1.getAbsolutePath();
+                    BufferedReader reader = new BufferedReader(new FileReader(path1));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        lines.add(line);
+                    }
+                    reader.close();
 
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (lan1.equals("swe") ) {
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 for (int i = 0; i < lines.size(); i++) {
                     String line = lines.get(i);
                     if ((line.matches(word + " /.*"))) {
-                        try {
-                            File file1 = new File("Dictionaries\\" + "eng-"+ lan1 + ".dict");
-                            String path1 = file1.getAbsolutePath();
-                            BufferedReader reader = new BufferedReader(new FileReader(path1));
-                            String line2;
-                            while ((line2 = reader.readLine()) != null) {
-                                lines3.add(line2);
-                            }
-                            reader.close();
-
+                        i = i + 2;
+                        if (lines.get(i).matches(".*synonym:+ .*") || lines.get(i).matches(".*synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i));
+                        } else if (lines.get(i + 1).matches(".*synonym:+ .*") || lines.get(i + 1).matches(".*synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i + 1));
+                        } else if (lines.get(i + 2).matches(".*synonym:+ .*") || lines.get(i + 2).matches(".*synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i + 2));
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("No synonyms found");
+                            alert.setContentText("There are no synonyms for this word");
+                            alert.showAndWait();
                         }
-                        catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        for (int j = 0; j < lines3.size(); j++) {
-                            String line3 = lines3.get(j);
-                            if (line3.matches(lines.get(i + 1) + " /.*")) {
-                                synonymsList.getItems().add(lines3.get(j+1));
-
+                        for (int j = i + 2; j < lines.size(); j++) {
+                            String nextLine = lines.get(j);
+                            if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
+                                break;
                             }
                         }
                     }
                 }
             }
-            else if (lan1.equals("deu"))
-            {
-                for (int i = 0; i < lines.size(); i++) {
-                String line = lines.get(i);
-                if ((line.matches(word + " /.*"))) {
-                    try {
-                        File file1 = new File("Dictionaries\\" + "eng-"+ lan1 + ".dict");
-                        String path1 = file1.getAbsolutePath();
-                        BufferedReader reader = new BufferedReader(new FileReader(path1));
-                        String line2;
-                        while ((line2 = reader.readLine()) != null) {
-                            lines3.add(line2);
-                        }
-                        reader.close();
+            case "Turkish", "Modern Greek", "Italian", "Swedish", "French" -> {
+                List<String> lines = new ArrayList<>();
+                List<String> lines2 = new ArrayList<>();
+                choicePart();
+                try {
+                    File file1 = new File("Dictionaries\\" + lan1 + "-eng.dict");
+                    String path1 = file1.getAbsolutePath();
+                    BufferedReader reader = new BufferedReader(new FileReader(path1));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        lines.add(line);
+                    }
+                    reader.close();
 
-                    }
-                    catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    for (int j = 0; j < lines3.size(); j++) {
-                        String line3 = lines3.get(j);
-                        if (line3.matches(lines.get(i + 1) + " /.*")) {
-                            synonymsList.getItems().add(lines3.get(j+1));
-                            for(int k = j + 2; k < lines3.size(); k++) {
-                                String nextSynonym = lines3.get(k);
-                                if (nextSynonym.matches("\\w+ /.") || nextSynonym.matches(".\\s/.*")) {
-                                    break;
-                                }
-                                synonymsList.getItems().add(nextSynonym);
-                            }
-
-                        }
-                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            }}
-            else
-            {
                 for (int i = 0; i < lines.size(); i++) {
                     String line = lines.get(i);
-                    if (line.matches(word+ " /.*")) {
+                    if (line.matches(word + " /.*")) {
                         try {
-                            File file1 = new File("Dictionaries\\" + "eng-"+ lan1 + ".dict");
+                            File file1 = new File("Dictionaries\\" + "eng-" + lan1 + ".dict");
                             String path1 = file1.getAbsolutePath();
                             BufferedReader reader = new BufferedReader(new FileReader(path1));
                             String line2;
                             while ((line2 = reader.readLine()) != null) {
-                                lines3.add(line2);
+                                lines2.add(line2);
                             }
                             reader.close();
 
-                        }
-                        catch (IOException e) {
+                        } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        for (int j = 0; j < lines3.size(); j++) {
-                            String line3 = lines3.get(j);
+                        for (int j = 0; j < lines2.size(); j++) {
+                            String line3 = lines2.get(j);
                             if (line3.matches(lines.get(i + 1) + " /.*")) {
-                                synonymsList.getItems().add(lines3.get(j+1));
-                                for(int k = j + 2; k < lines3.size(); k++) {
-                                    String nextSynonym = lines3.get(k);
-                                    if (nextSynonym.matches("\\w+ /.") || nextSynonym.matches(".\\s/.*")) {
-                                        break;
-                                    }
-                                    synonymsList.getItems().add(nextSynonym);
-                                }
+                                synonymsList.getItems().add(lines2.get(j + 1));
                             }
                         }
                     }
                 }
             }
-            synonymsList.getItems().add("");
+            case "English" -> {
+                List<String> lines = new ArrayList<>();
+                choicePart();
+                try {
+                    File file1 = new File("Dictionaries\\" + lan1 + "-deu.dict");
+                    String path1 = file1.getAbsolutePath();
+                    BufferedReader reader = new BufferedReader(new FileReader(path1));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        lines.add(line);
+                    }
+                    reader.close();
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                for (int i = 0; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    if ((line.matches(word + " /.*"))) {
+                        i = i + 2;
+                        if (lines.get(i).matches(".*Synonym:+ .*") || lines.get(i).matches(".*Synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i));
+                        } else if (lines.get(i + 1).matches(".*Synonym:+ .*") || lines.get(i + 1).matches(".*Synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i + 1));
+                        } else if (lines.get(i + 2).matches(".*Synonym:+ .*") || lines.get(i + 2).matches(".*Synonyms:.*")) {
+                            synonymsList.getItems().add(lines.get(i + 2));
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("No synonyms found");
+                            alert.setContentText("There are no synonyms for this word");
+                            alert.showAndWait();
+                        }
+                        for (int j = i + 2; j < lines.size(); j++) {
+                            String nextLine = lines.get(j);
+                            if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
+}
     public void choicePart(){
             switch (fromLangLbl.getText()) {
                 case "English" -> lan1 = "eng";
