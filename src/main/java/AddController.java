@@ -6,12 +6,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
@@ -21,6 +23,8 @@ public class AddController implements Initializable {
 
     @FXML
     MenuButton fromLang,toLang;
+    @FXML
+    ListView<String> list;
     @FXML
     Label fromLangLbl,toLangLbl;
     @FXML
@@ -161,5 +165,23 @@ public class AddController implements Initializable {
             case "Swedish" -> lan2 = "swe";
             case "Turkish" -> lan2 = "tur";
         }
+    }
+    @FXML
+    void switchToSynonym(ActionEvent e) throws Exception {
+
+        root = FXMLLoader.load(getClass().getResource("synonym.fxml"));
+        stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    void switchToEdit(ActionEvent e) throws Exception {
+
+        root = FXMLLoader.load(getClass().getResource("edit.fxml"));
+        stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

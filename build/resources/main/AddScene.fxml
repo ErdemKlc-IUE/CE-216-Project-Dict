@@ -10,10 +10,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddController">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <children>
+
+
                 <MenuButton fx:id="fromLang" alignment="CENTER" layoutX="180.0" layoutY="47.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Language">
                     <items>
                         <MenuItem fx:id="eng1" mnemonicParsing="false" text="English" />
@@ -51,7 +53,10 @@
                 <ListView fx:id="wordsList1" layoutX="264.0" layoutY="168.0" prefHeight="200.0" prefWidth="116.0" />
                 <Label layoutX="189.0" layoutY="150.0" text="Word" />
                 <Label layoutX="291.0" layoutY="150.0" text="Translation" />
-            </children>
+            <Button layoutX="23.0" layoutY="47.0" mnemonicParsing="false" onAction="#switchToSynonym" prefHeight="26.0"
+                    prefWidth="92.0" text="Find Synonym"/>
+            <Button layoutX="552.0" layoutY="47.0" mnemonicParsing="false" onAction="#switchToEdit" prefHeight="26.0" prefWidth="42.0" text="Edit" />
+
         </AnchorPane>
     </children>
 </VBox>

@@ -103,6 +103,7 @@ public class SynonymController implements Initializable {
         stage.show();
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         eng1.setOnAction(event -> fromLangLbl.setText(eng1.getText()));

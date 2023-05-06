@@ -384,4 +384,20 @@ public class Controller implements Initializable {
     void exit () {
         System.exit(0);
     }
+    @FXML
+    void help() throws Exception {
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Help.fxml")));
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Help");
+        stage.setScene(new Scene(parent, 600, 400));
+        stage.setMinWidth(605);
+        stage.setMinHeight(405);
+        stage.setResizable(true);
+        // Hide the current window
+        Stage stage1 = (Stage) list.getScene().getWindow();
+        stage1.hide();
+        stage.show();
+    }
+
 }
