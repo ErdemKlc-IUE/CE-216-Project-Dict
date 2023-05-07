@@ -241,7 +241,7 @@ public class Controller implements Initializable {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
                 //Searching for the entered word
-                if ((line.matches(searchedWord.getText() + " /.*"))) {
+                if (line.matches(searchedWord.getText() + " /.*")) {
                     //Adding translation to the list
                     list.getItems().add(lines.get(i + 1));
                     foundWordCounter++;

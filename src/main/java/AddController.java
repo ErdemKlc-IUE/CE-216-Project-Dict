@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -87,20 +88,42 @@ public class AddController implements Initializable {
         String word = addedWord.getText();
         String word2 = translation.getText();
 
-        List<String> lines = new ArrayList<>();
-
         choicePart();
+
+        String fileNameDict = "Dictionaries\\" + lan1 + "-" + lan2 + ".dict";
+        String fileNameTxt = "Dictionaries\\" + lan1 + "-" + lan2 + ".txt";
+        File fileDict = new File(fileNameDict);
+        File fileTxt = new File(fileNameTxt);
+
         if (word.isEmpty() || word2.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error");
             alert.setContentText("Please fill in all the fields");
             alert.showAndWait();
-        } else{
+            return;
+        }
+
+        if (!fileDict.exists() && !fileTxt.exists()) {
             try {
-                File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileNameTxt), StandardCharsets.UTF_8));
+                String text1 = word + " / /\n" + "1." + word2 + "\n";
+                writer.write(text1);
+                writer.close();
+                wordsList.getItems().add(word);
+                wordsList1.getItems().add(word2);
+                addedWord.clear();
+                translation.clear();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            List<String> lines = new ArrayList<>();
+            File file = fileDict.exists() ? fileDict : fileTxt;
+
+            try {
                 String path = file.getAbsolutePath();
-                BufferedReader reader = new BufferedReader(new FileReader(path));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     lines.add(line);
@@ -109,30 +132,33 @@ public class AddController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            boolean wordExists = false;
             for (String line : lines) {
-                if (line.matches(word+"/.*")){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error");
-                    alert.setContentText("This word already exists in the dictionary");
-                    alert.showAndWait();
-                    return;
-                }
-                else {
-                    try {
-                        FileWriter fileWriter = new FileWriter("Dictionaries\\" + lan1 + "-" + lan2 + ".dict", true);
-                        String text1 = word + " / /\n" +"1." +word2 + "\n";
-                        fileWriter.write(text1);
-                        fileWriter.close();
-                        wordsList.getItems().add(word);
-                        wordsList1.getItems().add(word2);
-                        addedWord.clear();
-                        translation.clear();
-                        break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                if (line.startsWith(word + " /")) {
+                    wordExists = true;
                     break;
+                }
+            }
+
+            if (wordExists) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error");
+                alert.setContentText("This word already exists in the dictionary");
+                alert.showAndWait();
+            } else {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+                    String text1 = word + " / /\n" + "1." + word2 + "\n";
+                    writer.write(text1);
+                    writer.close();
+                    wordsList.getItems().add(word);
+                    wordsList1.getItems().add(word2);
+                    addedWord.clear();
+                    translation.clear();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
