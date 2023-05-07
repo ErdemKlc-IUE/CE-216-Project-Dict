@@ -1,6 +1,8 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -37,6 +39,7 @@ public class Controller implements Initializable {
     private AddController controller2;
     private EditController editController;
     private SynonymController synonymController;
+    private HelpController helpController;
 
     public SynonymController getSynonymController() {
         return synonymController;
@@ -67,6 +70,14 @@ public class Controller implements Initializable {
         this.editController = editController;
     }
 
+    public HelpController getHelpController() {
+        return helpController;
+    }
+
+    public void setHelpController(HelpController helpController) {
+        this.helpController = helpController;
+    }
+
     @FXML
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -81,6 +92,7 @@ public class Controller implements Initializable {
         controller2.init(this);
         editController.init(this);
         synonymController.init(this);
+
 
 
     }
@@ -99,11 +111,13 @@ public class Controller implements Initializable {
     @FXML
     void search() {
 
-
+        //Clearing the list before every search
         list.getItems().clear();
 
+        //Getting the abbreviation of the selected language
         choicePart();
 
+        //Showing an alert when word is not entered
         if (searchedWord.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -114,6 +128,7 @@ public class Controller implements Initializable {
 
         else {
 
+            //Calling necessary translate methods
             switch (lan1) {
                 case "eng" -> {
                     list.getItems().add("ENGLISH -> GERMAN"); translate("deu");
@@ -182,14 +197,7 @@ public class Controller implements Initializable {
 
         }
 
-        if(list.getItems().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("Warning");
-            alert.setContentText("Word is not found in any language.");
-            alert.showAndWait();
-        }
-
+        //Showing an alert when there is no translation for the entered word
         if(foundWordCounter == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Warning");
@@ -199,16 +207,19 @@ public class Controller implements Initializable {
 
         }
 
+        //Resetting the word counter
         if(foundWordCounter != 0){
             foundWordCounter= 0;
         }
 
     }
 
+    //Translating between two languages with a direct dictionary between them
     void translate(String lang2) {
 
         List<String> lines = new ArrayList<>();
 
+        //Getting the abbreviation of the selected language
         choicePart();
         try {
             File file1 = new File("Dictionaries\\" + lan1 + "-" + lang2 + ".dict");
@@ -225,12 +236,13 @@ public class Controller implements Initializable {
             throw new RuntimeException(e);
         }
 
-
-
+        //Differentiating German and Swedish because of their different file structures
         if (lan1.equals("swe") || lan1.equals("deu")) {
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
+                //Searching for the entered word
                 if ((line.matches(searchedWord.getText() + " /.*"))) {
+                    //Adding translation to the list
                     list.getItems().add(lines.get(i + 1));
                     foundWordCounter++;
                 }
@@ -238,78 +250,114 @@ public class Controller implements Initializable {
         } else{
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
+                //Searching for the entered word
                 if ((line.matches(searchedWord.getText() + " /.*"))) {
-                    list.getItems().add(lines.get(i + 1));
-                    for (int j = i + 2; j < lines.size(); j++) {
+                    for (int j = i + 1; j < lines.size(); j++) {
                         String nextLine = lines.get(j);
+                        //Finding all the translations
                         if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
                             break;
                         }
+                        //Adding translation to the list
                         list.getItems().add(nextLine);
                     }
                     foundWordCounter++;
                 }
             }
         }
+        //Leaving gaps between translations in different languages
         list.getItems().add("");
     }
 
+    //Translating between two languages that don't have a direct dictionary between them
     void doubleTranslate(String lang2) {
 
+        List<String> lines = new ArrayList<>();
         List<String> lines2 = new ArrayList<>();
         List<String> lines3 = new ArrayList<>();
 
+        //Getting the abbreviation of the selected language
         choicePart();
 
-        File file2 = new File("Dictionaries\\" + lan1 + "-eng.dict");
-        File file3 = new File("Dictionaries\\eng-" + lang2 + ".dict");
-        String path2 = file2.getAbsolutePath();
-        String path3 = file3.getAbsolutePath();
-
         try {
-            BufferedReader reader1 = new BufferedReader(new FileReader(path2));
-            BufferedReader reader2 = new BufferedReader(new FileReader(path3));
+            File file1 = new File("Dictionaries\\" + lan1 + "-" + lang2 + ".txt");
+            String path1 = file1.getAbsolutePath();
+            BufferedReader reader = new BufferedReader(new FileReader(path1));
             String line;
-            while ((line = reader1.readLine()) != null) {
-                lines2.add(line);
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
             }
-            reader1.close();
+            reader.close();
 
-            while ((line = reader2.readLine()) != null) {
-                lines3.add(line);
+        } catch (Exception t) {
+
+            File file2 = new File("Dictionaries\\" + lan1 + "-eng.dict");
+            File file3 = new File("Dictionaries\\eng-" + lang2 + ".dict");
+            String path2 = file2.getAbsolutePath();
+            String path3 = file3.getAbsolutePath();
+
+            try {
+                BufferedReader reader1 = new BufferedReader(new FileReader(path2));
+                BufferedReader reader2 = new BufferedReader(new FileReader(path3));
+                String line;
+                while ((line = reader1.readLine()) != null) {
+                    lines2.add(line);
+                }
+                reader1.close();
+
+                while ((line = reader2.readLine()) != null) {
+                    lines3.add(line);
+                }
+                reader2.close();
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            reader2.close();
 
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // I don't know how many meanings a word can have, so I used a for loop to check all the meanings.
-        // And I have to stop the loop when the other word is found.
-        // TODO: 3.05.2023 I have to find a better way to do this.
-        for (int i = 0; i < lines2.size(); i++) {
-            String line = lines2.get(i);
-            if (line.matches(searchedWord.getText() + " /.*")) {
+            for (int i = 0; i < lines2.size(); i++) {
+                String line = lines2.get(i);
+                //Showing an alert when word is not entered
+                if (line.matches(searchedWord.getText() + " /.*")) {
 
-                for (int k = 0; k < lines3.size(); k++) {
-                    String line2 = lines3.get(k);
-                    if (line2.matches(lines2.get(i + 1) + " /.*")) {
-                        list.getItems().add(lines3.get(k + 1));
-                        if (lines3.get(k + 2).contains("2.")) {
-                            list.getItems().add(lines3.get(k + 2));
-                        }
-                        if (lines3.get(k + 3).contains("3.")) {
-                            list.getItems().add(lines3.get(k + 3));
-                        }
-                        if (lines3.get(k + 4).contains("4.")) {
-                            list.getItems().add(lines3.get(k + 4));
+                    for (int k = 0; k < lines3.size(); k++) {
+                        String line2 = lines3.get(k);
+                        if (line2.matches(lines2.get(i + 1) + " /.*")) {
+                            for (int l = k + 1; l < lines3.size(); l++) {
+                                String nextLine = lines3.get(l);
+                                //Finding all the translations
+                                if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
+                                    break;
+                                }
+                                //Adding translation to the list
+                                list.getItems().add(nextLine);
+                            }
+                            foundWordCounter++;
                         }
                     }
                 }
             }
-        }
-        list.getItems().add("");
+            //Leaving gaps between translations in different languages
+            list.getItems().add("");
 
+        }
+
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if ((line.matches(searchedWord.getText() + " /.*"))) {
+                for (int j = i + 1; j < lines.size(); j++) {
+                    String nextLine = lines.get(j);
+                    if (nextLine.matches("\\w+ /.*") || nextLine.matches(".*\\s/.*")) {
+                        break;
+                    }
+                    list.getItems().add(nextLine);
+
+                }
+                list.getItems().add("");
+                foundWordCounter++;
+            }
+        }
     }
     public void choicePart(){
         switch (fromLangLbl.getText()) {
@@ -322,6 +370,8 @@ public class Controller implements Initializable {
             case "Turkish" -> lan1 = "tur";
         }
     }
+
+    //Switching to add window
     @FXML
     public void addScene() {
         try {
@@ -340,6 +390,7 @@ public class Controller implements Initializable {
 
             addStage.setScene(scene1);
             addStage.show();
+            addStage.setTitle("Add");
             Stage stage = (Stage) list.getScene().getWindow();
             stage.hide();
 
@@ -347,6 +398,8 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
+
+    //Switching to edit window
     @FXML
     void switchToEdit () throws Exception{
 
@@ -364,13 +417,15 @@ public class Controller implements Initializable {
 
         stage.show();
     }
+
+    //Switching to synonym window
     @FXML
     void switchToSynonym () throws Exception{
 
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("synonym.fxml")));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("The Offline Dictionary App");
+        stage.setTitle("Synonym");
         stage.setScene(new Scene(parent, 600, 400));
         stage.setMinWidth(605);
         stage.setMinHeight(405);
@@ -380,24 +435,32 @@ public class Controller implements Initializable {
         stage1.hide();
         stage.show();
     }
+
+    //Switching to help window
     @FXML
-    void exit () {
-        System.exit(0);
-    }
-    @FXML
-    void help() throws Exception {
+    void help () throws Exception{
+
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Help.fxml")));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Help");
-        stage.setScene(new Scene(parent, 600, 400));
-        stage.setMinWidth(605);
-        stage.setMinHeight(405);
+        stage.setScene(new Scene(parent, 670, 500));
+        stage.setMinWidth(700);
+        stage.setMinHeight(550);
         stage.setResizable(true);
         // Hide the current window
         Stage stage1 = (Stage) list.getScene().getWindow();
         stage1.hide();
+
         stage.show();
     }
+
+    //Exiting from the app
+    @FXML
+    void exit () {
+        System.exit(0);
+    }
+
+
 
 }

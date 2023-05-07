@@ -81,12 +81,13 @@ public class EditController implements Initializable {
     @FXML
     void editWord() throws IOException {
 
-
+        //Getting the abbreviation of the selected language
         choicePart();
 
         String oldWord=oldW.getText();
         String newWord=newW.getText();
 
+        //Showing an alert when the old and new word are the same
         if(oldWord.equals(newWord)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -151,6 +152,7 @@ public class EditController implements Initializable {
     public void returnBack(ActionEvent e) throws IOException {
         root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        stage.setTitle("The Offline Dictionary App");
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -160,6 +162,7 @@ public class EditController implements Initializable {
     public void goToAdd(ActionEvent e) throws IOException {
         root = FXMLLoader.load(getClass().getResource("AddScene.fxml"));
         stage=(Stage)((Node)e.getSource()).getScene().getWindow();
+        stage.setTitle("Add");
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -170,7 +173,7 @@ public class EditController implements Initializable {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("synonym.fxml")));
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("The Offline Dictionary App");
+        stage.setTitle("Synonym");
         stage.setScene(new Scene(parent, 600, 400));
         stage.setMinWidth(605);
         stage.setMinHeight(405);
@@ -183,13 +186,14 @@ public class EditController implements Initializable {
 
     @FXML
     void editTranslation() throws IOException {
-        // Open the file
+
         choicePart();
 
         String oldWord=oldW.getText();
         String oldTranslation=oldT.getText();
         String newTranslation=newT.getText();
 
+        //Showing an alert when the old and new translation are the same
         if(oldTranslation.equals(newTranslation)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -200,7 +204,7 @@ public class EditController implements Initializable {
 
         File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
         String path = file.getAbsolutePath();
-        //File file = new File("file.txt");
+
 
         List<String> list = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(path));
