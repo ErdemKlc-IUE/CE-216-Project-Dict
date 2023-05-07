@@ -158,9 +158,9 @@ public class SynonymController implements Initializable {
                     directTranslateSyn("ell"); directTranslateSyn("tur");
                 }
                 case "ell" -> {
-                    directTranslateSyn("eng"); doubleTranslateSyn("deu");
+                    directTranslateSyn("eng"); directTranslateSyn("deu");
                     directTranslateSyn("ita"); directTranslateSyn("fra");
-                    directTranslateSyn("swe"); doubleTranslateSyn("tur");
+                    directTranslateSyn("swe"); directTranslateSyn("tur");
                 }
                 case "fra" -> {
                     directTranslateSyn("eng"); directTranslateSyn("deu");
@@ -169,7 +169,7 @@ public class SynonymController implements Initializable {
                 }
                 case "ita" -> {
                     directTranslateSyn("eng"); directTranslateSyn("deu");
-                    doubleTranslateSyn("fra"); directTranslateSyn("swe");
+                    directTranslateSyn("fra"); directTranslateSyn("swe");
                     directTranslateSyn("ell"); directTranslateSyn("tur");
                 }
                 case "swe" -> {
@@ -179,8 +179,8 @@ public class SynonymController implements Initializable {
                 }
                 case "tur" -> {
                     directTranslateSyn("eng");directTranslateSyn("deu");
-                    doubleTranslateSyn("ita"); directTranslateSyn("fra");
-                    doubleTranslateSyn("swe"); doubleTranslateSyn("ell");
+                    directTranslateSyn("ita"); directTranslateSyn("fra");
+                    directTranslateSyn("swe"); directTranslateSyn("ell");
                 }
                 default -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -278,66 +278,6 @@ public class SynonymController implements Initializable {
         }
     }
 
-    //Finding synonyms between two languages that don't have a direct dictionary between them
-    void doubleTranslateSyn(String lang2) {
-/*
-        List<String> lines2 = new ArrayList<>();
-        List<String> lines3 = new ArrayList<>();
-
-        choicePart();
-
-        File file2 = new File("Dictionaries\\" + lan1 + "-eng.txt");
-        File file3 = new File("Dictionaries\\eng-" + lang2 + ".txt");
-        String path2 = file2.getAbsolutePath();
-        String path3 = file3.getAbsolutePath();
-
-        try {
-            BufferedReader reader1 = new BufferedReader(new FileReader(path2));
-            BufferedReader reader2 = new BufferedReader(new FileReader(path3));
-            String line;
-            while ((line = reader1.readLine()) != null) {
-                lines2.add(line);
-            }
-            reader1.close();
-
-            while ((line = reader2.readLine()) != null) {
-                lines3.add(line);
-            }
-            reader2.close();
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        // I don't know how many meanings a word can have, so I used a for loop to check all the meanings.
-        // And I have to stop the loop when the other word is found.
-        // TODO: 3.05.2023 I have to find a better way to do this.
-        for (int i = 0; i < lines2.size(); i++) {
-            String line = lines2.get(i);
-            if (line.matches(searchedWord.getText() + " /.*")) {
-
-                for (int k = 0; k < lines3.size(); k++) {
-                    String line2 = lines3.get(k);
-                    if (line2.matches(lines2.get(i + 1) + " /.*")) {
-                        list.getItems().add(lines3.get(k + 1));
-                        if (lines3.get(k + 2).contains("2.")) {
-                            list.getItems().add(lines3.get(k + 2));
-                        }
-                        if (lines3.get(k + 3).contains("3.")) {
-                            list.getItems().add(lines3.get(k + 3));
-                        }
-                        if (lines3.get(k + 4).contains("4.")) {
-                            list.getItems().add(lines3.get(k + 4));
-                        }
-                    }
-                }
-            }
-        }
-        list.getItems().add("");
-
- */
-
-    }
     public void choicePart(){
         switch (fromLangLbl.getText()) {
             case "English" -> lan1 = "eng";
