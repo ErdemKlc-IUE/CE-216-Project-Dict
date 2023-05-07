@@ -36,7 +36,6 @@ public class Main extends Application {
         AddController controller2 = new AddController();
         EditController editController = new EditController();
         SynonymController synonymController = new SynonymController();
-        HelpController helpController = new HelpController();
 
         controller2.setController(controller);
         controller2.setScene(scene1);
@@ -47,18 +46,11 @@ public class Main extends Application {
         synonymController.setController(controller);
         synonymController.setScene(scene3);
 
-        helpController.setController(controller);
-        helpController.setScene(scene4);
-
-
-
         controller.setController2(controller2);
 
         controller.setEditController(editController);
 
         controller.setSynonymController(synonymController);
-
-        controller.setHelpController(helpController);
 
         primaryStage.setTitle("The Offline Dictionary App");
         primaryStage.setScene(mainScene);

@@ -39,7 +39,6 @@ public class Controller implements Initializable {
     private AddController controller2;
     private EditController editController;
     private SynonymController synonymController;
-    private HelpController helpController;
 
     public SynonymController getSynonymController() {
         return synonymController;
@@ -68,14 +67,6 @@ public class Controller implements Initializable {
 
     public void setEditController(EditController editController) {
         this.editController = editController;
-    }
-
-    public HelpController getHelpController() {
-        return helpController;
-    }
-
-    public void setHelpController(HelpController helpController) {
-        this.helpController = helpController;
     }
 
     @FXML
@@ -448,9 +439,6 @@ public class Controller implements Initializable {
         stage.setMinWidth(700);
         stage.setMinHeight(550);
         stage.setResizable(true);
-        // Hide the current window
-        Stage stage1 = (Stage) list.getScene().getWindow();
-        stage1.hide();
 
         stage.show();
     }
