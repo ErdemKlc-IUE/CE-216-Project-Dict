@@ -179,7 +179,7 @@ public class SynonymController implements Initializable {
                 }
                 case "tur" -> {
                     directTranslateSyn("eng");directTranslateSyn("deu");
-                    doubleTranslateSyn("ita"); doubleTranslateSyn("fra");
+                    doubleTranslateSyn("ita"); directTranslateSyn("fra");
                     doubleTranslateSyn("swe"); doubleTranslateSyn("ell");
                 }
                 default -> {
@@ -220,7 +220,7 @@ public class SynonymController implements Initializable {
         choicePart();
 
         try {
-            File file1 = new File("Dictionaries\\" + lan1 + "-"+ lang2 +".dict");
+            File file1 = new File("Dictionaries\\" + lan1 + "-"+ lang2 +".txt");
             String path1 = file1.getAbsolutePath();
             BufferedReader reader = new BufferedReader(new FileReader(path1));
             String line;
@@ -237,7 +237,7 @@ public class SynonymController implements Initializable {
             //Searching for the entered word
             if (line.matches(word + " /.*")) {
                 try {
-                    File file1 = new File("Dictionaries\\" + lang2 + "-" + lan1 + ".dict");
+                    File file1 = new File("Dictionaries\\" + lang2 + "-" + lan1 + ".txt");
                     String path1 = file1.getAbsolutePath();
                     BufferedReader reader = new BufferedReader(new FileReader(path1));
                     String line2;
@@ -286,8 +286,8 @@ public class SynonymController implements Initializable {
 
         choicePart();
 
-        File file2 = new File("Dictionaries\\" + lan1 + "-eng.dict");
-        File file3 = new File("Dictionaries\\eng-" + lang2 + ".dict");
+        File file2 = new File("Dictionaries\\" + lan1 + "-eng.txt");
+        File file3 = new File("Dictionaries\\eng-" + lang2 + ".txt");
         String path2 = file2.getAbsolutePath();
         String path3 = file3.getAbsolutePath();
 

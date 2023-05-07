@@ -90,9 +90,8 @@ public class AddController implements Initializable {
 
         choicePart();
 
-        String fileNameDict = "Dictionaries\\" + lan1 + "-" + lan2 + ".dict";
         String fileNameTxt = "Dictionaries\\" + lan1 + "-" + lan2 + ".txt";
-        File fileDict = new File(fileNameDict);
+
         File fileTxt = new File(fileNameTxt);
 
         if (word.isEmpty() || word2.isEmpty()) {
@@ -104,10 +103,10 @@ public class AddController implements Initializable {
             return;
         }
 
-        if (!fileDict.exists() && !fileTxt.exists()) {
+        if (!fileTxt.exists()) {
             try {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileNameTxt), StandardCharsets.UTF_8));
-                String text1 = word + " / /\n" + "1." + word2 + "\n";
+                String text1 = word + " / /\n"+ word2 + "\n";
                 writer.write(text1);
                 writer.close();
                 wordsList.getItems().add(word);
@@ -119,7 +118,7 @@ public class AddController implements Initializable {
             }
         } else {
             List<String> lines = new ArrayList<>();
-            File file = fileDict.exists() ? fileDict : fileTxt;
+            File file =fileTxt;
 
             try {
                 String path = file.getAbsolutePath();
@@ -150,7 +149,7 @@ public class AddController implements Initializable {
             } else {
                 try {
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
-                    String text1 = word + " / /\n" + "1." + word2 + "\n";
+                    String text1 = word + " / /\n" + word2 + "\n";
                     writer.write(text1);
                     writer.close();
                     wordsList.getItems().add(word);

@@ -213,7 +213,7 @@ public class Controller implements Initializable {
         //Getting the abbreviation of the selected language
         choicePart();
         try {
-            File file1 = new File("Dictionaries\\" + lan1 + "-" + lang2 + ".dict");
+            File file1 = new File("Dictionaries\\" + lan1 + "-" + lang2 + ".txt");
             String path1 = file1.getAbsolutePath();
             BufferedReader reader = new BufferedReader(new FileReader(path1));
             String line;
@@ -282,8 +282,8 @@ public class Controller implements Initializable {
 
         } catch (Exception t) {
 
-            File file2 = new File("Dictionaries\\" + lan1 + "-eng.dict");
-            File file3 = new File("Dictionaries\\eng-" + lang2 + ".dict");
+            File file2 = new File("Dictionaries\\" + lan1 + "-eng.txt");
+            File file3 = new File("Dictionaries\\eng-" + lang2 + ".txt");
             String path2 = file2.getAbsolutePath();
             String path3 = file3.getAbsolutePath();
 

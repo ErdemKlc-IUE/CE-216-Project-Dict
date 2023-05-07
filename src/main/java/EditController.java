@@ -96,7 +96,7 @@ public class EditController implements Initializable {
             alert.showAndWait();
         }
 
-        File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+        File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".txt");
         String path = file.getAbsolutePath();
         //File file = new File("file.txt");
 
@@ -202,7 +202,7 @@ public class EditController implements Initializable {
             alert.showAndWait();
         }
 
-        File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".dict");
+        File file = new File("Dictionaries\\" + lan1 + "-" + lan2 + ".txt");
         String path = file.getAbsolutePath();
 
 
